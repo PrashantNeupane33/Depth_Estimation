@@ -113,16 +113,15 @@ with dai.Device(pipeline) as device:
                     break
         else:
             cv2.imshow("Balls", rgbFrame)
-            if tracker:
-                success, bbox = tracker.update(rgbFrame)
-                if success:
-                    x, y, w, h = [int(v) for v in bbox]
-                    cv2.rectangle(rgbFrame, (x, y),
-                                  (x + w, y + h), (0, 255, 0), 2)
-                    count += 1
-                    if count > 100:
-                        detect = True
-                        count = 0
+            success, bbox = tracker.update(rgbFrame)
+            if success:
+                x, y, w, h = [int(v) for v in bbox]
+                cv2.rectangle(rgbFrame, (x, y),
+                              (x + w, y + h), (0, 255, 0), 2)
+                count += 1
+                if count > 100:
+                    detect = True
+                    count = 0
         # Calculate spatial coordiantes from depth frame
         spatials, centroid = hostSpatials.calc_spatials(
             depthData, (int(x), int(y)))
